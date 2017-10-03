@@ -1,27 +1,39 @@
 package com.tomasovych.filip.todolistplayground;
 
+import static com.tomasovych.filip.todolistplayground.tasks.TasksActivity.TAG;
+
 import android.app.Application;
-import com.tomasovych.filip.todolistplayground.di.AppComponent;
-import com.tomasovych.filip.todolistplayground.di.AppModule;
-import com.tomasovych.filip.todolistplayground.di.DaggerAppComponent;
+import android.content.Context;
+import android.util.Log;
+import com.tomasovych.filip.todolistplayground.di.components.AppComponent;
+import com.tomasovych.filip.todolistplayground.di.components.DaggerAppComponent;
+import com.tomasovych.filip.todolistplayground.di.modules.AppModule;
+import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
+import javax.inject.Inject;
 
 public class TodoApplication extends Application {
 
-  private AppComponent appComponent;
+  @Inject
+  public TaskRepository taskRepository;
+  protected AppComponent appComponent;
 
-  public AppComponent getAppComponent() {
-    return appComponent;
+  public static TodoApplication get(Context context) {
+    return (TodoApplication) context.getApplicationContext();
   }
 
-  protected AppComponent initDagger(TodoApplication application) {
-    return DaggerAppComponent.builder()
-        .appModule(new AppModule(application))
-        .build();
+  public AppComponent getComponent() {
+    return appComponent;
   }
 
   @Override
   public void onCreate() {
     super.onCreate();
-    appComponent = initDagger(this);
+
+    Log.d(TAG, "onCreate: ");
+
+    appComponent = DaggerAppComponent.builder()
+            .appModule(new AppModule(this))
+            .build();
+    appComponent.inject(this);
   }
 }

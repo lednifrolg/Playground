@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 public class Task {
 
-  @PrimaryKey
+  @PrimaryKey(autoGenerate = true)
   private int id;
 
   @ColumnInfo(name = "task_text")
@@ -51,5 +51,10 @@ public class Task {
 
   public void setDateCreated(Date dateCreated) {
     this.dateCreated = dateCreated;
+  }
+
+  @Override
+  public String toString() {
+    return "Taskid : " + id + " Text : " + taskText;
   }
 }

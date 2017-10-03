@@ -1,13 +1,14 @@
 package com.tomasovych.filip.todolistplayground.model.source;
 
-import android.arch.lifecycle.LiveData;
 import com.tomasovych.filip.todolistplayground.model.Task;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import java.util.List;
 
 public interface TaskRepository {
 
-  LiveData<List<Task>> loadTasks();
+  Flowable<List<Task>> loadTasks();
 
-  void saveTask(Task task);
+  Observable<Long> saveTask(Task task);
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -13,6 +14,9 @@ import butterknife.ButterKnife;
 import com.tomasovych.filip.todolistplayground.R;
 import com.tomasovych.filip.todolistplayground.TodoApplication;
 import com.tomasovych.filip.todolistplayground.base.BaseActivity;
+import com.tomasovych.filip.todolistplayground.di.components.ActivityComponent;
+import com.tomasovych.filip.todolistplayground.di.components.DaggerActivityComponent;
+import com.tomasovych.filip.todolistplayground.di.modules.ActivityModule;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
 import javax.inject.Inject;
 
@@ -29,16 +33,34 @@ public class TasksActivity extends BaseActivity implements TasksContract.TasksVi
   @BindView(R.id.coordinatorLayour)
   CoordinatorLayout coordinatorLayout;
 
+  @BindView(R.id.rv_tasks)
+  RecyclerView tasksRecyclerView;
+
   @Inject
   TasksPresenter tasksPresenter;
+
+
+  private ActivityComponent activityComponent;
+
+  private ActivityComponent getActivityComponent() {
+    if (activityComponent == null) {
+      Log.d(TAG, "getActivityComponent: null");
+      activityComponent = DaggerActivityComponent.builder().activityModule(new ActivityModule(this))
+          .appComponent(TodoApplication.get(this).getComponent())
+          .build();
+    }
+    return activityComponent;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    getActivityComponent().inject(this);
     ButterKnife.bind(this);
-    ((TodoApplication) getApplication()).getAppComponent().inject(this);
+
     setSupportActionBar(mToolbar);
+
     tasksPresenter.attachView(this);
 
     mAddTaskFab.setOnClickListener(

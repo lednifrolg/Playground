@@ -19,17 +19,17 @@ public class TasksRoomUnitTest {
 
   @Test
   public void addition_isCorrect() throws Exception {
-    Context appContext = InstrumentationRegistry.getTargetContext();
-    TaskDatabase database = TaskDatabase.getInstance(appContext);
-
-    Task task = new Task();
-    task.setCompleted(false);
-    task.setTaskText("ASDADSAD");
-    task.setDateCreated(Calendar.getInstance().getTime());
-
-    database.tasksDao().insertTask(task);
-
-    List<Task> tasks = database.tasksDao().getTasks();
+//    Context appContext = InstrumentationRegistry.getTargetContext();
+//    TaskDatabase database = TaskDatabase.getInstance(appContext);
+//
+//    Task task = new Task();
+//    task.setCompleted(false);
+//    task.setTaskText("ASDADSAD");
+//    task.setDateCreated(Calendar.getInstance().getTime());
+//
+//    database.tasksDao().insertTask(task);
+//
+//    List<Task> tasks = database.tasksDao().getTasks();
 
 
   }
