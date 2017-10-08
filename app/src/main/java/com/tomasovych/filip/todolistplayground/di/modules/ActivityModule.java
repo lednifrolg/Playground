@@ -2,10 +2,12 @@ package com.tomasovych.filip.todolistplayground.di.modules;
 
 import android.app.Activity;
 import android.content.Context;
-import com.tomasovych.filip.todolistplayground.TodoApplication;
 import com.tomasovych.filip.todolistplayground.di.annotations.ActivityContext;
+import com.tomasovych.filip.todolistplayground.di.annotations.PerActivity;
 import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
+import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
+import com.tomasovych.filip.todolistplayground.tasks.TasksListPresenterImpl;
 import com.tomasovych.filip.todolistplayground.tasks.TasksPresenterImpl;
 import dagger.Module;
 import dagger.Provides;
@@ -21,18 +23,27 @@ public class ActivityModule {
 
   @Provides
   @ActivityContext
+  @PerActivity
   Context provideContext() {
     return activity;
   }
 
   @Provides
+  @PerActivity
   Activity provideActivity() {
     return activity;
   }
 
   @Provides
+  @PerActivity
   TasksPresenter provideTaskPresenter(TaskRepository taskRepository) {
     return new TasksPresenterImpl(taskRepository);
+  }
+
+  @Provides
+  @PerActivity
+  TasksListPresenter provideTaskItemPresenter(TaskRepository taskRepository) {
+    return new TasksListPresenterImpl(taskRepository);
   }
 
 }

@@ -5,30 +5,41 @@ import com.tomasovych.filip.todolistplayground.model.Task;
 import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import javax.inject.Inject;
 
 public class TasksPresenterImpl implements TasksContract.TasksPresenter {
 
   public static final String TAG = TasksPresenterImpl.class.getSimpleName();
-  int count = 0;
+
   private TaskRepository taskRepository;
   private TasksView view;
+
+  private CompositeDisposable disposable;
 
   @Inject
   public TasksPresenterImpl(TaskRepository taskRepository) {
     Log.d(TAG, "TasksPresenterImpl: cotr :" + taskRepository);
     this.taskRepository = taskRepository;
+    disposable = new CompositeDisposable();
   }
 
   @Override
   public void attachView(TasksView view) {
     Log.d(TAG, "attachView: " + view);
     this.view = view;
+    disposable.add(taskRepository.loadTasks().subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(tasks -> view.showMessage("Number of saved tasks : " + tasks.size()),
+            Throwable::printStackTrace,
+            () -> {
+            }));
   }
 
   @Override
   public void detachView() {
+    disposable.clear();
     view = null;
   }
 
@@ -36,15 +47,13 @@ public class TasksPresenterImpl implements TasksContract.TasksPresenter {
   public void buttonClicked() {
     Log.d(TAG, "buttonClicked: ");
     Task task = new Task();
-    task.setTaskText("Test " + String.valueOf(count++));
+    task.setTaskText("Test ");
     //taskRepository.saveTask(task);
 
-    taskRepository.saveTask(task).subscribeOn(Schedulers.io()).observeOn(
-        AndroidSchedulers.mainThread())
-        .subscribe(id -> Log.d(TAG, "id: " + id));
-
-    taskRepository.loadTasks().filter(tasks1 -> !tasks1.isEmpty()).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(tasks1 -> view.showMessage("Number of entries: " + tasks1.size()));
+    disposable.add(
+        taskRepository.saveTask(task).subscribeOn(Schedulers.io()).observeOn(
+            AndroidSchedulers.mainThread())
+            .subscribe(id -> Log.d(TAG, "id: " + id)));
   }
+
 }

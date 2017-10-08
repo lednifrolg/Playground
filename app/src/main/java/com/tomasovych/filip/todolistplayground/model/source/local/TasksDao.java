@@ -7,6 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import com.tomasovych.filip.todolistplayground.model.Task;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import java.util.List;
 
 @Dao
@@ -16,7 +17,7 @@ public interface TasksDao {
   Flowable<List<Task>> getTasks();
 
   @Query("SELECT * FROM task WHERE id = :id")
-  Task getTask(int id);
+  Flowable<Task> getTask(int id);
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   Long insertTask(Task task);

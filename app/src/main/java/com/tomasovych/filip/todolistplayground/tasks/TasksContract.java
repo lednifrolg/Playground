@@ -26,11 +26,21 @@ public interface TasksContract {
     void setState();
   }
 
-  public interface TasksItemPresenter {
+  public interface TasksListPresenter {
     void onBindTasksItemView(TasksItemView tasksItemView, int position);
 
     void itemClicked(int position);
 
     void itemRemoved(int position);
+
+    void attachView(TasksListAdapterView tasksListAdapterView);
+
+    void detachView();
+  }
+
+  public interface TasksListAdapterView {
+    void setListSize(int listSize);
+
+    void notifyDataChanged();
   }
 }

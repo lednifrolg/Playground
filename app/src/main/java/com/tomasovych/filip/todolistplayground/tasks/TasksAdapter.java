@@ -2,33 +2,62 @@ package com.tomasovych.filip.todolistplayground.tasks;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.tomasovych.filip.todolistplayground.R;
-import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksItemPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksItemView;
+import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListAdapterView;
+import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListPresenter;
 import javax.inject.Inject;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> {
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> implements
+    TasksListAdapterView {
+
+  private TasksListPresenter tasksListPresenter;
+  private int listSize = 0;
+
+  @Override
+  public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    super.onDetachedFromRecyclerView(recyclerView);
+    tasksListPresenter.detachView();
+  }
 
   @Inject
-  TasksItemPresenter tasksItemPresenter;
+  public TasksAdapter(TasksListPresenter tasksItemPresenter) {
+    this.tasksListPresenter = tasksItemPresenter;
+    tasksItemPresenter.attachView(this);
+  }
 
   @Override
   public TasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return null;
+    View itemView = LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.todo_item, parent, false);
+
+    return new TasksViewHolder(itemView);
   }
 
   @Override
   public void onBindViewHolder(TasksViewHolder holder, int position) {
-
+    tasksListPresenter.onBindTasksItemView(holder, position);
   }
 
   @Override
   public int getItemCount() {
-    return 0;
+    return listSize;
+  }
+
+  @Override
+  public void setListSize(int listSize) {
+    this.listSize = listSize;
+  }
+
+  @Override
+  public void notifyDataChanged() {
+    this.notifyDataSetChanged();
   }
 
   public class TasksViewHolder extends ViewHolder implements TasksItemView {
@@ -38,11 +67,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
     public TasksViewHolder(View itemView) {
       super(itemView);
+      ButterKnife.bind(this, itemView);
     }
 
     @Override
     public void setItemName(String itemName) {
-
+      todoTextView.setText(itemName);
     }
 
     @Override

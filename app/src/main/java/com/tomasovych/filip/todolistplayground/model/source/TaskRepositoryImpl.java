@@ -27,6 +27,13 @@ public class TaskRepositoryImpl implements TaskRepository {
 
   @Override
   public Observable<Long> saveTask(Task task) {
-    return Observable.fromCallable(() -> taskDatabase.tasksDao().insertTask(task));
+    return Observable.fromCallable(() -> {
+      try {
+        Thread.sleep(3000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      return taskDatabase.tasksDao().insertTask(task);
+    });
   }
 }
