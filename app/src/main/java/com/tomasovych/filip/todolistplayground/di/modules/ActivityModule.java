@@ -36,14 +36,14 @@ public class ActivityModule {
 
   @Provides
   @PerActivity
-  TasksPresenter provideTaskPresenter(TaskRepository taskRepository) {
-    return new TasksPresenterImpl(taskRepository);
+  TasksPresenter provideTaskPresenter(TasksPresenterImpl tasksPresenter) {
+    return tasksPresenter;
   }
 
   @Provides
   @PerActivity
-  TasksListPresenter provideTaskItemPresenter(TaskRepository taskRepository) {
-    return new TasksListPresenterImpl(taskRepository);
+  TasksListPresenter provideTaskItemPresenter(TasksListPresenterImpl tasksListPresenter) {
+    return tasksListPresenter;
   }
 
 }

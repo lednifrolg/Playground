@@ -31,7 +31,7 @@ public class AppModule {
   @Provides
   @Singleton
   TaskDatabase provideTaskDatabase(@ApplicationContext Context context,
-          @DatabaseInfo String taskDbName) {
+      @DatabaseInfo String taskDbName) {
     return Room.databaseBuilder(context.getApplicationContext(),
         TaskDatabase.class, taskDbName)
         .build();
@@ -45,6 +45,7 @@ public class AppModule {
 
   @Provides
   @DatabaseInfo
+  @Singleton
   String provideTaskDbName() {
     return "tasks.db";
   }

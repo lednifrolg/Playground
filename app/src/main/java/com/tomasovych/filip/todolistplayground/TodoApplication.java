@@ -10,9 +10,12 @@ import com.tomasovych.filip.todolistplayground.di.components.AppComponent;
 import com.tomasovych.filip.todolistplayground.di.components.DaggerAppComponent;
 import com.tomasovych.filip.todolistplayground.di.modules.AppModule;
 import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
+import com.tomasovych.filip.todolistplayground.tasks.TasksListPresenterImpl;
 import javax.inject.Inject;
 
 public class TodoApplication extends Application {
+
+  public static final String TAG = TodoApplication.class.getSimpleName();
 
   @Inject
   public TaskRepository taskRepository;
@@ -29,12 +32,14 @@ public class TodoApplication extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    Log.d(TAG, "onCreate: ");
 
     appComponent = DaggerAppComponent.builder()
             .appModule(new AppModule(this))
             .build();
     appComponent.inject(this);
+
+    Log.d(TAG, "cotr: " + this.hashCode());
+    Log.d(TAG, "taskRepository " + taskRepository);
 
     if (LeakCanary.isInAnalyzerProcess(this)) {
       // This process is dedicated to LeakCanary for heap analysis.

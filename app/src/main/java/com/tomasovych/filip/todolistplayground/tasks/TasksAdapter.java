@@ -1,10 +1,13 @@
 package com.tomasovych.filip.todolistplayground.tasks;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,16 +23,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
   private TasksListPresenter tasksListPresenter;
   private int listSize = 0;
 
-  @Override
-  public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-    super.onDetachedFromRecyclerView(recyclerView);
-    tasksListPresenter.detachView();
-  }
-
   @Inject
   public TasksAdapter(TasksListPresenter tasksItemPresenter) {
     this.tasksListPresenter = tasksItemPresenter;
     tasksItemPresenter.attachView(this);
+  }
+
+  @Override
+  public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    super.onDetachedFromRecyclerView(recyclerView);
+    tasksListPresenter.detachView();
   }
 
   @Override
@@ -63,7 +66,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
   public class TasksViewHolder extends ViewHolder implements TasksItemView {
 
     @BindView(R.id.tv_todo)
-    TextView todoTextView;
+    TextView taskTextView;
+
+    @BindView(R.id.iv_task_badge)
+    ImageView taskBadgeImageView;
+
+    @BindView(R.id.tv_task_badge_char)
+    TextView taskBadgeChar;
+
 
     public TasksViewHolder(View itemView) {
       super(itemView);
@@ -72,7 +82,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
     @Override
     public void setItemName(String itemName) {
-      todoTextView.setText(itemName);
+      taskTextView.setText(itemName);
+      taskBadgeImageView.getDrawable().setColorFilter(Color.argb(255, 225, 200, 100), Mode.SRC);
+      taskBadgeChar.setText("Y");
     }
 
     @Override

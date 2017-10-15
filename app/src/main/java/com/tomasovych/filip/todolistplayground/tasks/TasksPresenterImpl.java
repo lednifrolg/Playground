@@ -20,7 +20,9 @@ public class TasksPresenterImpl implements TasksContract.TasksPresenter {
 
   @Inject
   public TasksPresenterImpl(TaskRepository taskRepository) {
-    Log.d(TAG, "TasksPresenterImpl: cotr :" + taskRepository);
+    Log.d(TAG, "cotr: " + this.hashCode());
+    Log.d(TAG, "taskRepository: " + taskRepository);
+
     this.taskRepository = taskRepository;
     disposable = new CompositeDisposable();
   }

@@ -17,10 +17,13 @@ public interface TasksDao {
   Flowable<List<Task>> getTasks();
 
   @Query("SELECT * FROM task WHERE id = :id")
-  Flowable<Task> getTask(int id);
+  Flowable<Task> getTask(long id);
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   Long insertTask(Task task);
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  List<Long> insertTasks(List<Task> tasks);
 
   @Delete
   void deleteTask(Task task);

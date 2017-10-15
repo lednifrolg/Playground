@@ -12,11 +12,15 @@ import javax.inject.Inject;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
+  public static final String TAG = TaskRepositoryImpl.class.getSimpleName();
+
   private TaskDatabase taskDatabase;
 
   @Inject
   public TaskRepositoryImpl(TaskDatabase taskDatabase) {
-    Log.d(TAG, "TaskRepositoryImpl: " + taskDatabase);
+    Log.d(TAG, "cotr: " + this.hashCode());
+    Log.d(TAG, "TaskDatabase: " + taskDatabase);
+
     this.taskDatabase = taskDatabase;
   }
 

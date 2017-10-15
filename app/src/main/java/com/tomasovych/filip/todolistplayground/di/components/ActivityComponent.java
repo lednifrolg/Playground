@@ -7,7 +7,6 @@ import dagger.Component;
 
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = ActivityModule.class)
-
 public interface ActivityComponent {
 
   void inject(TasksActivity activity);

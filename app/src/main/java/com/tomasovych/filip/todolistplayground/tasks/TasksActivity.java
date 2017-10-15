@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -66,13 +67,18 @@ public class TasksActivity extends BaseActivity implements TasksContract.TasksVi
 
     tasksPresenter.attachView(this);
 
-    tasksRecyclerView.setAdapter(tasksAdapter);
-    tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    initTasksRecyclerView();
 
     mAddTaskFab.setOnClickListener(
         v -> Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT)
             .setAction("Action", view -> tasksPresenter.buttonClicked()).show());
+  }
 
+  private void initTasksRecyclerView() {
+    tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    tasksRecyclerView.addItemDecoration(new DividerItemDecoration(tasksRecyclerView.getContext(),
+        LinearLayoutManager.VERTICAL));
+    tasksRecyclerView.setAdapter(tasksAdapter);
   }
 
   @Override
