@@ -1,7 +1,5 @@
 package com.tomasovych.filip.todolistplayground;
 
-import static org.junit.Assert.assertEquals;
-
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -10,13 +8,12 @@ import android.util.Log;
 import com.tomasovych.filip.todolistplayground.model.Task;
 import com.tomasovych.filip.todolistplayground.model.source.local.TaskDatabase;
 import com.tomasovych.filip.todolistplayground.model.source.local.TasksDao;
-import io.reactivex.Flowable;
-import java.io.IOException;
-import java.util.ArrayList;
+import io.reactivex.functions.Predicate;
+import io.reactivex.subscribers.TestSubscriber;
 import java.util.Date;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,15 +27,22 @@ public class TasksRoomUnitTest {
   public void createDb() {
     Log.d("TST", "createDb");
     Context context = InstrumentationRegistry.getTargetContext();
-    taskDatabase = Room.databaseBuilder(context.getApplicationContext(),
-        TaskDatabase.class, "test_db.db")
+    taskDatabase = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),
+        TaskDatabase.class).allowMainThreadQueries()
         .build();
 
     tasksDao = taskDatabase.tasksDao();
   }
 
+  @After
+  public void closeDb() throws Exception {
+    taskDatabase.close();
+  }
+
   @Test
   public void testInsert() {
+    TestSubscriber<Task> testSubscriber = tasksDao.getTask(0).test();
+
     Log.d("TST", "testInsert");
     Task task = new Task();
     task.setTaskText("task 1");
@@ -47,13 +51,21 @@ public class TasksRoomUnitTest {
 
     long id = tasksDao.insertTask(task);
 
-    Flowable<Task> fromDb = tasksDao.getTask(id);
-    fromDb.subscribe(t -> {
-      assertEquals(t.getId(), id + 5555);
-      assertEquals(t.getTaskText(), "dsad");
-      assertEquals(t.getDateCreated(), task.getDateCreated());
-    });
 
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    testSubscriber.assertNoErrors();
+    testSubscriber.assertNotComplete();
+    testSubscriber.assertValue(new Predicate<Task>() {
+      @Override
+      public boolean test(Task task1) throws Exception {
+        return task1.getTaskText().equals("task 1");
+      }
+    });
   }
 
 

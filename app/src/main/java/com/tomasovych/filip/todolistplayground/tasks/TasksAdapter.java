@@ -68,11 +68,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     @BindView(R.id.tv_todo)
     TextView taskTextView;
 
+    @BindView(R.id.tv_task_description)
+    TextView taskDescriptionTextView;
+
     @BindView(R.id.iv_task_badge)
     ImageView taskBadgeImageView;
-
-    @BindView(R.id.tv_task_badge_char)
-    TextView taskBadgeChar;
 
 
     public TasksViewHolder(View itemView) {
@@ -83,8 +83,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     @Override
     public void setItemName(String itemName) {
       taskTextView.setText(itemName);
-      taskBadgeImageView.getDrawable().setColorFilter(Color.argb(255, 225, 200, 100), Mode.SRC);
-      taskBadgeChar.setText("Y");
+    }
+
+    @Override
+    public void setItemDescription(String description) {
+      taskDescriptionTextView.setText(description);
+    }
+
+    @Override
+    public void setItemColor(String color) {
+      taskBadgeImageView.getDrawable().setColorFilter(Color.parseColor(color), Mode.SRC);
     }
 
     @Override

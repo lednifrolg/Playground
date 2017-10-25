@@ -21,6 +21,10 @@ public interface TasksContract {
   public interface TasksItemView {
     void setItemName(String itemName);
 
+    void setItemDescription(String description);
+
+    void setItemColor(String color);
+
     void setPriority(int priority);
 
     void setState();

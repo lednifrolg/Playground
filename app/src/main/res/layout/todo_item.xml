@@ -4,7 +4,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:orientation="horizontal">
+  android:orientation="horizontal"
+  tools:layout_editor_absoluteY="81dp">
 
   <!--<TextView-->
   <!--android:layout_gravity="center"-->
@@ -19,40 +20,54 @@
 
   <ImageView
     android:id="@+id/iv_task_badge"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginStart="16dp"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="16dp"
     android:src="@drawable/circle"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintStart_toStartOf="@+id/ver_guidline_16"
     app:layout_constraintTop_toTopOf="parent"/>
 
   <TextView
     android:id="@+id/tv_todo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginStart="16dp"
+    android:layout_marginTop="12dp"
     android:layout_gravity="center"
-    app:layout_constraintBottom_toBottomOf="@+id/iv_task_badge"
-    app:layout_constraintStart_toEndOf="@+id/iv_task_badge"
-    app:layout_constraintTop_toTopOf="@+id/iv_task_badge"
+    android:textAppearance="@style/TextAppearance.AppCompat"
+    app:layout_constraintStart_toStartOf="@+id/ver_guidline_72"
+    app:layout_constraintTop_toTopOf="parent"
     tools:text="This is sample todo item"/>
 
   <TextView
-    android:id="@+id/tv_task_badge_char"
+    android:id="@+id/tv_task_description"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:maxLines="2"
+    android:textSize="14sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline3"
+    app:layout_constraintStart_toStartOf="@+id/ver_guidline_72"
+    app:layout_constraintTop_toBottomOf="@+id/tv_todo"
+    app:layout_constraintVertical_bias="0.0"
+    tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Up exlaborum incididunt. "/>
+  <android.support.constraint.Guideline
+    android:id="@+id/ver_guidline_16"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textAppearance="@style/BadgeCharStyle"
-    app:layout_constraintBottom_toBottomOf="@+id/iv_task_badge"
-    app:layout_constraintEnd_toEndOf="@+id/iv_task_badge"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="@+id/iv_task_badge"
-    app:layout_constraintTop_toTopOf="@+id/iv_task_badge"
-    app:layout_constraintVertical_bias="0.5"
-    tools:text="Y"/>
+    android:orientation="vertical"
+    app:layout_constraintGuide_begin="16dp"/>
+  <android.support.constraint.Guideline
+    android:id="@+id/ver_guidline_72"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_begin="72dp"/>
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_end="72dp"/>
 
 </android.support.constraint.ConstraintLayout>

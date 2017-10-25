@@ -33,6 +33,8 @@ public class TasksListPresenterImpl implements TasksContract.TasksListPresenter 
   @Override
   public void onBindTasksItemView(TasksItemView tasksItemView, int position) {
     tasksItemView.setItemName(tasks.get(position).getTaskText());
+    tasksItemView.setItemDescription("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Up exlaborum incididunt. ");
+    tasksItemView.setItemColor("#2BD2BB");
   }
 
   @Override
