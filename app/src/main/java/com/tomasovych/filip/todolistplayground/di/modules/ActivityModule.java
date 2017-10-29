@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import com.tomasovych.filip.todolistplayground.di.annotations.ActivityContext;
 import com.tomasovych.filip.todolistplayground.di.annotations.PerActivity;
-import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTaksPresenterImpl;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.CreateTaskPresenter;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsPresenter;
+import com.tomasovych.filip.todolistplayground.newtask.TaskItemsPresenterImpl;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksListPresenterImpl;
@@ -46,4 +49,15 @@ public class ActivityModule {
     return tasksListPresenter;
   }
 
+  @Provides
+  @PerActivity
+  CreateTaskPresenter provideCreateTaskPresenter(CreateTaksPresenterImpl createTaksPresenter) {
+    return createTaksPresenter;
+  }
+
+  @Provides
+  @PerActivity
+  TaskItemsPresenter provideTaskItemsPresenter(TaskItemsPresenterImpl taskItemsPresenter) {
+    return taskItemsPresenter;
+  }
 }

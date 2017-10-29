@@ -40,4 +40,9 @@ public class TaskRepositoryImpl implements TaskRepository {
       return taskDatabase.tasksDao().insertTask(task);
     });
   }
+
+  @Override
+  public Flowable<Task> getTask(long id) {
+    return null;
+  }
 }

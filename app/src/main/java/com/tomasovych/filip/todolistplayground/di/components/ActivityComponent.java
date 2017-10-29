@@ -2,6 +2,7 @@ package com.tomasovych.filip.todolistplayground.di.components;
 
 import com.tomasovych.filip.todolistplayground.di.annotations.PerActivity;
 import com.tomasovych.filip.todolistplayground.di.modules.ActivityModule;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTaskActivity;
 import com.tomasovych.filip.todolistplayground.tasks.TasksActivity;
 import dagger.Component;
 
@@ -9,6 +10,6 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
 
-  void inject(TasksActivity activity);
-
+  void inject(TasksActivity target);
+  void inject(CreateTaskActivity target);
 }

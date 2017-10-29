@@ -6,11 +6,14 @@ public interface TasksContract {
 
     void showMessage(String message);
 
+    void startCreateTask();
   }
 
   public interface TasksPresenter {
 
     void attachView(TasksView view);
+
+    void createTaskButtonClicked();
 
     void detachView();
 

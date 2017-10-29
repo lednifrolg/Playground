@@ -11,4 +11,6 @@ public interface TaskRepository {
 
   Observable<Long> saveTask(Task task);
 
+  Flowable<Task> getTask(long id);
+
 }

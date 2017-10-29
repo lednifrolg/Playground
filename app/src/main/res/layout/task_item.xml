@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <TextView
+    android:id="@+id/tv_item_text"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="16dp"
+    android:maxLength="105"
+    android:maxLines="2"
+    android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Up exlaborum incididunt. "
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/animation_view"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna wirl aliqua. Up exlaborum incididunt. "/>
+
+  <com.airbnb.lottie.LottieAnimationView
+    android:id="@+id/animation_view"
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    app:layout_constraintBottom_toBottomOf="@+id/tv_item_text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/tv_item_text"
+    app:lottie_autoPlay="false"
+    app:lottie_cacheStrategy="strong"
+    app:lottie_fileName="checked_done_.json"
+    app:lottie_loop="false"/>
+</android.support.constraint.ConstraintLayout>

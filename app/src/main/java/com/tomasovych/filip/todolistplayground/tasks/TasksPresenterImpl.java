@@ -3,13 +3,14 @@ package com.tomasovych.filip.todolistplayground.tasks;
 import android.util.Log;
 import com.tomasovych.filip.todolistplayground.model.Task;
 import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
+import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import javax.inject.Inject;
 
-public class TasksPresenterImpl implements TasksContract.TasksPresenter {
+public class TasksPresenterImpl implements TasksPresenter {
 
   public static final String TAG = TasksPresenterImpl.class.getSimpleName();
 
@@ -37,6 +38,11 @@ public class TasksPresenterImpl implements TasksContract.TasksPresenter {
             Throwable::printStackTrace,
             () -> {
             }));
+  }
+
+  @Override
+  public void createTaskButtonClicked() {
+    view.startCreateTask();
   }
 
   @Override

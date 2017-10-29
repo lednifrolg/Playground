@@ -20,6 +20,7 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <activity android:name=".newtask.CreateTaskActivity" android:parentActivityName=".tasks.TasksActivity"/>
   </application>
 
 </manifest>

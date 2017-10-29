@@ -1,5 +1,6 @@
 package com.tomasovych.filip.todolistplayground.tasks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +24,7 @@ import com.tomasovych.filip.todolistplayground.base.BaseActivity;
 import com.tomasovych.filip.todolistplayground.di.components.ActivityComponent;
 import com.tomasovych.filip.todolistplayground.di.components.DaggerActivityComponent;
 import com.tomasovych.filip.todolistplayground.di.modules.ActivityModule;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTaskActivity;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksView;
 import javax.inject.Inject;
@@ -79,9 +81,7 @@ public class TasksActivity extends BaseActivity implements TasksView,
 
     tasksPresenter.attachView(this);
 
-    mAddTaskFab.setOnClickListener(
-        v -> Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT)
-            .setAction("Action", view -> tasksPresenter.buttonClicked()).show());
+    mAddTaskFab.setOnClickListener(view -> tasksPresenter.createTaskButtonClicked());
   }
 
   private void initNavDrawer() {
@@ -133,6 +133,12 @@ public class TasksActivity extends BaseActivity implements TasksView,
   public void showMessage(String message) {
     Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).show();
     Log.d(TAG, "showMessage: ");
+  }
+
+  @Override
+  public void startCreateTask() {
+    Intent intent = new Intent(this, CreateTaskActivity.class);
+    startActivity(intent);
   }
 
   @Override
