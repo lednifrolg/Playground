@@ -13,26 +13,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.tomasovych.filip.todolistplayground.R;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksItemView;
-import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListAdapterView;
-import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListPresenter;
-import javax.inject.Inject;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> implements
-    TasksListAdapterView {
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder> {
 
-  private TasksListPresenter tasksListPresenter;
+  private TasksActivity tasksActivity;
   private int listSize = 0;
 
-  @Inject
-  public TasksAdapter(TasksListPresenter tasksItemPresenter) {
-    this.tasksListPresenter = tasksItemPresenter;
-    tasksItemPresenter.attachView(this);
+  public TasksAdapter(TasksActivity tasksActivity) {
+    this.tasksActivity = tasksActivity;
   }
 
   @Override
   public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
     super.onDetachedFromRecyclerView(recyclerView);
-    tasksListPresenter.detachView();
+    tasksActivity = null;
   }
 
   @Override
@@ -45,7 +39,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
 
   @Override
   public void onBindViewHolder(TasksViewHolder holder, int position) {
-    tasksListPresenter.onBindTasksItemView(holder, position);
+    tasksActivity.onBindTasksItemView(holder, position);
   }
 
   @Override
@@ -53,12 +47,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     return listSize;
   }
 
-  @Override
   public void setListSize(int listSize) {
     this.listSize = listSize;
   }
 
-  @Override
   public void notifyDataChanged() {
     this.notifyDataSetChanged();
   }
@@ -78,6 +70,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     public TasksViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
+
+      itemView.setOnClickListener(view -> tasksActivity.taskClicked(
+          getAdapterPosition()));
     }
 
     @Override
@@ -95,6 +90,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
       taskBadgeImageView.getDrawable().setColorFilter(Color.parseColor(color), Mode.SRC);
     }
 
+
     @Override
     public void setPriority(int priority) {
 
@@ -104,6 +100,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
     public void setState() {
 
     }
-  }
 
+  }
 }

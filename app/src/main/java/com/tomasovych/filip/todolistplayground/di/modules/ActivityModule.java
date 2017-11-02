@@ -6,11 +6,7 @@ import com.tomasovych.filip.todolistplayground.di.annotations.ActivityContext;
 import com.tomasovych.filip.todolistplayground.di.annotations.PerActivity;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTaksPresenterImpl;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.CreateTaskPresenter;
-import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsPresenter;
-import com.tomasovych.filip.todolistplayground.newtask.TaskItemsPresenterImpl;
-import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksListPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
-import com.tomasovych.filip.todolistplayground.tasks.TasksListPresenterImpl;
 import com.tomasovych.filip.todolistplayground.tasks.TasksPresenterImpl;
 import dagger.Module;
 import dagger.Provides;
@@ -33,7 +29,7 @@ public class ActivityModule {
 
   @Provides
   @PerActivity
-  Activity provideActivity() {
+  Activity provideTaskActivity() {
     return activity;
   }
 
@@ -43,11 +39,6 @@ public class ActivityModule {
     return tasksPresenter;
   }
 
-  @Provides
-  @PerActivity
-  TasksListPresenter provideTaskItemPresenter(TasksListPresenterImpl tasksListPresenter) {
-    return tasksListPresenter;
-  }
 
   @Provides
   @PerActivity
@@ -55,9 +46,4 @@ public class ActivityModule {
     return createTaksPresenter;
   }
 
-  @Provides
-  @PerActivity
-  TaskItemsPresenter provideTaskItemsPresenter(TaskItemsPresenterImpl taskItemsPresenter) {
-    return taskItemsPresenter;
-  }
 }

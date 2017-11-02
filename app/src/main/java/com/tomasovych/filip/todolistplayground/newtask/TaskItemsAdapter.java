@@ -5,31 +5,24 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.airbnb.lottie.LottieAnimationView;
 import com.tomasovych.filip.todolistplayground.R;
-import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsAdapterView;
-import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsPresenter;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsView;
-import javax.inject.Inject;
 
 public class TaskItemsAdapter extends
-    RecyclerView.Adapter<TaskItemsAdapter.TaskItemsViewHolder> implements
-    TaskItemsAdapterView {
+    RecyclerView.Adapter<TaskItemsAdapter.TaskItemsViewHolder> {
 
   public static final String TAG = TaskItemsAdapter.class.getSimpleName();
 
-  private TaskItemsPresenter taskItemsPresenter;
+  private CreateTaskActivity createTaskActivity;
   private int listSize = 0;
 
-  @Inject
-  public TaskItemsAdapter(TaskItemsPresenter taskItemsPresenter) {
-    this.taskItemsPresenter = taskItemsPresenter;
-    taskItemsPresenter.attachView(this);
+  public TaskItemsAdapter(CreateTaskActivity createTaskActivity) {
+    this.createTaskActivity = createTaskActivity;
   }
 
   @Override
@@ -42,7 +35,7 @@ public class TaskItemsAdapter extends
 
   @Override
   public void onBindViewHolder(TaskItemsViewHolder holder, int position) {
-    taskItemsPresenter.onBindTasksItemView(holder, position);
+    createTaskActivity.onBindTasksItemView(holder, position);
   }
 
   @Override
@@ -50,23 +43,20 @@ public class TaskItemsAdapter extends
     return listSize;
   }
 
-  @Override
   public void setListSize(int listSize) {
     this.listSize = listSize;
   }
 
-  @Override
   public void notifyDataChanged() {
     this.notifyDataSetChanged();
   }
 
-  @Override
   public void notifyTaskItemChanged(int position) {
     this.notifyItemChanged(position);
   }
 
 
-  public class TaskItemsViewHolder extends ViewHolder implements TaskItemsView, OnClickListener {
+  public class TaskItemsViewHolder extends ViewHolder implements TaskItemsView {
 
     @BindView(R.id.tv_item_text)
     TextView taskItemTextView;
@@ -80,7 +70,10 @@ public class TaskItemsAdapter extends
       super(itemView);
       ButterKnife.bind(this, itemView);
 
-      itemView.setOnClickListener(this);
+      itemView.setOnClickListener(view -> {
+        showAnimation();
+        createTaskActivity.itemClicked(getAdapterPosition());
+      });
     }
 
     @Override
@@ -110,17 +103,6 @@ public class TaskItemsAdapter extends
         checkedAnimationView.cancelAnimation();
         checkedAnimationView.setProgress(progress);
       }
-    }
-
-    @Override
-    public void setTag(int tag) {
-      this.itemView.setTag(tag);
-    }
-
-    @Override
-    public void onClick(View view) {
-      showAnimation();
-      taskItemsPresenter.itemClicked((Integer) view.getTag());
     }
   }
 

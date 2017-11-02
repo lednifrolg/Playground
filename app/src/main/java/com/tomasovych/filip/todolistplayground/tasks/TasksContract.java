@@ -7,21 +7,15 @@ public interface TasksContract {
     void showMessage(String message);
 
     void startCreateTask();
-  }
 
-  public interface TasksPresenter {
+    // List
+    void setListSize(int listSize);
 
-    void attachView(TasksView view);
-
-    void createTaskButtonClicked();
-
-    void detachView();
-
-    void buttonClicked();
-
+    void notifyDataChanged();
   }
 
   public interface TasksItemView {
+
     void setItemName(String itemName);
 
     void setItemDescription(String description);
@@ -33,21 +27,23 @@ public interface TasksContract {
     void setState();
   }
 
-  public interface TasksListPresenter {
+
+  public interface TasksPresenter {
+
+    void attachView(TasksView view);
+
+    void createTaskButtonClicked();
+
+    void detachView();
+
+    void buttonClicked();
+
+    // List items
     void onBindTasksItemView(TasksItemView tasksItemView, int position);
 
     void itemClicked(int position);
 
     void itemRemoved(int position);
 
-    void attachView(TasksListAdapterView tasksListAdapterView);
-
-    void detachView();
-  }
-
-  public interface TasksListAdapterView {
-    void setListSize(int listSize);
-
-    void notifyDataChanged();
   }
 }

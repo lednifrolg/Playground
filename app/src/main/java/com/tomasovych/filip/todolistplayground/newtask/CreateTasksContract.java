@@ -7,10 +7,20 @@ public interface CreateTasksContract {
     void attachView(CreateTaskView view);
 
     void detachView();
+
+    void onBindTasksItemView(TaskItemsView taskItemsView, int position);
+
+    void itemClicked(int position);
+
+    void itemRemoved(int position);
   }
 
   interface CreateTaskView {
 
+    void setListSize(int listSize);
+
+    void notifyDataChanged();
+    // TODO
   }
 
   public interface TaskItemsView {
@@ -21,30 +31,6 @@ public interface CreateTasksContract {
 
     void setChecked(boolean checked);
 
-    void setTag(int tag);
   }
-
-  public interface TaskItemsPresenter {
-
-    void onBindTasksItemView(TaskItemsView taskItemsView, int position);
-
-    void itemClicked(int position);
-
-    void itemRemoved(int position);
-
-    void attachView(TaskItemsAdapterView taskItemsAdapterView);
-
-    void detachView();
-  }
-
-  public interface TaskItemsAdapterView {
-
-    void setListSize(int listSize);
-
-    void notifyDataChanged();
-
-    void notifyTaskItemChanged(int position);
-  }
-
 
 }

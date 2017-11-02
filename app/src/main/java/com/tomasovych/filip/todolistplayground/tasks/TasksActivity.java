@@ -25,6 +25,7 @@ import com.tomasovych.filip.todolistplayground.di.components.ActivityComponent;
 import com.tomasovych.filip.todolistplayground.di.components.DaggerActivityComponent;
 import com.tomasovych.filip.todolistplayground.di.modules.ActivityModule;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTaskActivity;
+import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksItemView;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksPresenter;
 import com.tomasovych.filip.todolistplayground.tasks.TasksContract.TasksView;
 import javax.inject.Inject;
@@ -52,7 +53,6 @@ public class TasksActivity extends BaseActivity implements TasksView,
   @Inject
   TasksPresenter tasksPresenter;
 
-  @Inject
   TasksAdapter tasksAdapter;
 
   private ActivityComponent activityComponent;
@@ -73,7 +73,6 @@ public class TasksActivity extends BaseActivity implements TasksView,
     setContentView(R.layout.activity_main);
     getActivityComponent().inject(this);
     ButterKnife.bind(this);
-
     setSupportActionBar(toolbar);
 
     initNavDrawer();
@@ -94,6 +93,10 @@ public class TasksActivity extends BaseActivity implements TasksView,
   }
 
   private void initTasksRecyclerView() {
+    if (tasksAdapter == null) {
+      tasksAdapter = new TasksAdapter(this);
+    }
+
     tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 //    tasksRecyclerView.addItemDecoration(new DividerItemDecoration(tasksRecyclerView.getContext(),
 //        LinearLayoutManager.VERTICAL));
@@ -142,6 +145,16 @@ public class TasksActivity extends BaseActivity implements TasksView,
   }
 
   @Override
+  public void setListSize(int listSize) {
+    tasksAdapter.setListSize(listSize);
+  }
+
+  @Override
+  public void notifyDataChanged() {
+    tasksAdapter.notifyDataChanged();
+  }
+
+  @Override
   public void onBackPressed() {
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -174,5 +187,13 @@ public class TasksActivity extends BaseActivity implements TasksView,
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+  public void onBindTasksItemView(TasksItemView tasksItemView, int position) {
+    tasksPresenter.onBindTasksItemView(tasksItemView, position);
+  }
+
+  public void taskClicked(int adapterPosition) {
+    tasksPresenter.itemClicked(adapterPosition);
   }
 }

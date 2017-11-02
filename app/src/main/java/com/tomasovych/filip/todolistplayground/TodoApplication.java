@@ -1,7 +1,5 @@
 package com.tomasovych.filip.todolistplayground;
 
-import static com.tomasovych.filip.todolistplayground.tasks.TasksActivity.TAG;
-
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
@@ -10,7 +8,6 @@ import com.tomasovych.filip.todolistplayground.di.components.AppComponent;
 import com.tomasovych.filip.todolistplayground.di.components.DaggerAppComponent;
 import com.tomasovych.filip.todolistplayground.di.modules.AppModule;
 import com.tomasovych.filip.todolistplayground.model.source.TaskRepository;
-import com.tomasovych.filip.todolistplayground.tasks.TasksListPresenterImpl;
 import javax.inject.Inject;
 
 public class TodoApplication extends Application {
@@ -34,8 +31,8 @@ public class TodoApplication extends Application {
     super.onCreate();
 
     appComponent = DaggerAppComponent.builder()
-            .appModule(new AppModule(this))
-            .build();
+        .appModule(new AppModule(this))
+        .build();
     appComponent.inject(this);
 
     Log.d(TAG, "cotr: " + this.hashCode());

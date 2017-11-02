@@ -10,7 +10,7 @@ import java.util.Date;
 public class Task {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
 
   @ColumnInfo(name = "task_text")
   private String taskText;
@@ -21,11 +21,11 @@ public class Task {
   @TypeConverters({Converters.class})
   private Date dateCreated;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 

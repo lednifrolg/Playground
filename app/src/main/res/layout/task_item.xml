@@ -31,6 +31,6 @@
     app:layout_constraintTop_toTopOf="@+id/tv_item_text"
     app:lottie_autoPlay="false"
     app:lottie_cacheStrategy="strong"
-    app:lottie_fileName="checked_done_.json"
+    app:lottie_fileName="success.json"
     app:lottie_loop="false"/>
 </android.support.constraint.ConstraintLayout>

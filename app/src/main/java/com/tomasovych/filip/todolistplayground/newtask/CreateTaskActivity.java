@@ -15,6 +15,7 @@ import com.tomasovych.filip.todolistplayground.di.components.DaggerActivityCompo
 import com.tomasovych.filip.todolistplayground.di.modules.ActivityModule;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.CreateTaskPresenter;
 import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.CreateTaskView;
+import com.tomasovych.filip.todolistplayground.newtask.CreateTasksContract.TaskItemsView;
 import javax.inject.Inject;
 
 public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
@@ -24,7 +25,6 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
   @Inject
   CreateTaskPresenter createTaskPresenter;
 
-  @Inject
   TaskItemsAdapter taskItemsAdapter;
 
   @BindView(R.id.rv_task_items)
@@ -51,12 +51,15 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
 
     getSupportActionBar();
 
-    initTasksRecyclerView();
-
     createTaskPresenter.attachView(this);
+    initTasksRecyclerView();
   }
 
   private void initTasksRecyclerView() {
+    if (taskItemsAdapter == null) {
+      taskItemsAdapter = new TaskItemsAdapter(this);
+    }
+
     taskItemsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     taskItemsRecyclerView.setAdapter(taskItemsAdapter);
   }
@@ -71,5 +74,23 @@ public class CreateTaskActivity extends BaseActivity implements CreateTaskView {
     super.onDestroy();
     taskItemsRecyclerView.setAdapter(null);
     createTaskPresenter.detachView();
+  }
+
+  @Override
+  public void setListSize(int listSize) {
+    taskItemsAdapter.setListSize(listSize);
+  }
+
+  @Override
+  public void notifyDataChanged() {
+    taskItemsAdapter.notifyDataChanged();
+  }
+
+  public void onBindTasksItemView(TaskItemsView taskItemsViewHolder, int position) {
+    createTaskPresenter.onBindTasksItemView(taskItemsViewHolder, position);
+  }
+
+  public void itemClicked(int position) {
+    createTaskPresenter.itemClicked(position);
   }
 }
